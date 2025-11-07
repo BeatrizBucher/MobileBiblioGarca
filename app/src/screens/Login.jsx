@@ -10,7 +10,11 @@ function Login({ navigation }) {
     const fazerLogin = async () => {
 
         try {
-            const response = await fetch('https://devgarca.com.br/mobile/api/login.php', {
+            if(!email || !senha){
+                alert("Falha no login", "Por favor preencha todos os campos")
+            }
+            else{
+                 const response = await fetch('http://10.0.2.2:3002/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -20,15 +24,18 @@ function Login({ navigation }) {
 
             const data = await response.json();
 
-            if (response.status === 201) {
-                navigation.replace('Rotas', {
+            if (response.status === 200) {
+                navigation.replace('Home', {
                     screen: 'Home',
                     params: { loginToken: data.token },
                 });
+              
             }
             else {
-                Alert.alert('Falha no login');
+                Alert.alert('Falha no login', 'Email ou senha incorretos');
             }
+            }
+           
         } catch (error) {
             Alert.alert('Erro');
         }
@@ -64,7 +71,7 @@ function Login({ navigation }) {
                     />
 
                     <View style={styles.btn}>
-                        <Button title="Entrar" color='#F6502E' onPress={() => navigation.navigate('Home')} />
+                        <Button title="Entrar" color='#F6502E' onPress={fazerLogin} />
                     </View>
 
                     <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>

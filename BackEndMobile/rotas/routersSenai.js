@@ -11,5 +11,6 @@ routers.get('/listarUsuario', controllerLivro.listarSenai);
 
 //Usuario
 routers.post('/cadastrarUser', controllerLivro.registrarUsuario);
+routers.post('/Login', controllerLivro.login);
 
 module.exports = routers;

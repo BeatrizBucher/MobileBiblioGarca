@@ -86,9 +86,36 @@ const modelLivro = {
     consultarEmail: async (email) => {
 
         const result = await executeQuery("SELECT * FROM cadastrar_usuario WHERE email = ?", [email]);
+        console.log(result)
         return result;
     },
 
+    //LOGIN
+    login: async (email, senha) => {
+        console.log("Chegou no model login");
+        try {
+
+            const consulta = await modelLivro.consultarEmail(email);
+            console.log(consulta)
+           
+
+
+            if (consulta.length > 0) {
+                const match = await bcrypt.compare(senha, consulta[0].senha);
+                console.log(match)
+
+                if (match) {
+                    const success = true;
+                    return success
+                }
+                return null
+            }
+            return null;
+        } catch (error) {
+            console.log("caiu no catch");
+            throw error;
+        }
+    },
 
 };
 

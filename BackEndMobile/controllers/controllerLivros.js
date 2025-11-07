@@ -113,6 +113,25 @@ const controllerLivro = {
         }
     },
 
+    login: async (req, res) => {
+        const { email, senha } = req.body;
+        
+        try {
+            const result = await modelLivro.login(email, senha);
+            console.log(result)
+
+            if (!result) {
+                res.status(401).json({ error: 'Email ou senha incorretos' });
+            } else {
+                res.status(200).json({ result: 'cadastrado com sucesso' });
+
+            }
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ error: 'Erro no servidor' });
+            
+        }
+    },
 
 };
 
